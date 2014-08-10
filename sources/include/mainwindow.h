@@ -17,7 +17,8 @@ class MainWindow : public QMainWindow
     enum TABS {
         BROWSE_TAB,
         FAVORITE_TAB,
-        PREVIEW_TAB
+        PREVIEW_TAB,
+        SETTINGS_TAB
     };
 
 public:
