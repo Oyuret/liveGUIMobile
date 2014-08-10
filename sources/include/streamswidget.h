@@ -2,7 +2,7 @@
 #define STREAMSWIDGET_H
 
 #include <QWidget>
-#include <QScrollBar>
+#include <QScroller>
 #include "streamitemwidget.h"
 #include "stream.h"
 
@@ -28,16 +28,13 @@ signals:
     // preview
     void goToPreview();
 
-public slots:
-
 private slots:
     void on_backToGamesButton_clicked();
-    void on_upButton_clicked();
-    void on_downButton_clicked();
 
 private:
     void connectStreamItemWidget(StreamItemWidget* streamItemWidget);
     void clear_streams();
+    void setupKineticScroller(QObject* target);
     Ui::StreamsWidget *ui;
 };
 

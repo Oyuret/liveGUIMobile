@@ -6,6 +6,7 @@ StreamsWidget::StreamsWidget(QWidget *parent) :
     ui(new Ui::StreamsWidget)
 {
     ui->setupUi(this);
+    setupKineticScroller(ui->streamListWidget);
 }
 
 StreamsWidget::~StreamsWidget()
@@ -43,20 +44,28 @@ void StreamsWidget::clear_streams()
     ui->streamListWidget->clear();
 }
 
+void StreamsWidget::setupKineticScroller(QObject *target)
+{
+    QScrollerProperties sp;
+
+    sp.setScrollMetric(QScrollerProperties::DragVelocitySmoothingFactor, 0.6);
+    sp.setScrollMetric(QScrollerProperties::MinimumVelocity, 0.0);
+    sp.setScrollMetric(QScrollerProperties::MaximumVelocity, 0.5);
+    sp.setScrollMetric(QScrollerProperties::AcceleratingFlickMaximumTime, 0.4);
+    sp.setScrollMetric(QScrollerProperties::AcceleratingFlickSpeedupFactor, 1.2);
+    sp.setScrollMetric(QScrollerProperties::SnapPositionRatio, 0.2);
+    sp.setScrollMetric(QScrollerProperties::MaximumClickThroughVelocity, 0);
+    sp.setScrollMetric(QScrollerProperties::DragStartDistance, 0.001);
+    sp.setScrollMetric(QScrollerProperties::MousePressEventDelay, 0.5);
+    QScroller* scroller = QScroller::scroller(target);
+
+    scroller->grabGesture(target, QScroller::LeftMouseButtonGesture);
+
+    scroller->setScrollerProperties(sp);
+}
+
 void StreamsWidget::on_backToGamesButton_clicked()
 {
     clear_streams();
     emit goToGamesWidget();
-}
-
-void StreamsWidget::on_upButton_clicked()
-{
-    int current = ui->streamListWidget->verticalScrollBar()->value();
-    ui->streamListWidget->verticalScrollBar()->setValue(current - 3);
-}
-
-void StreamsWidget::on_downButton_clicked()
-{
-    int current = ui->streamListWidget->verticalScrollBar()->value();
-    ui->streamListWidget->verticalScrollBar()->setValue(current + 3);
 }

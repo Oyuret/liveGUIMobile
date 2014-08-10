@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
-#include <QScrollBar>
+#include <QScroller>
 #include "gamesitemdelegate.h"
 #include "game.h"
 
@@ -23,6 +23,7 @@ public:
 
 private:
     void clearGames();
+    void setupKineticScroller(QObject *target);
 
     Ui::GamesWidget *ui;
 
@@ -43,8 +44,6 @@ private slots:
     void on_gamesItemActivated(const QModelIndex& index);
     void on_twitchButton_clicked();
     void on_azubuButton_clicked();
-    void on_upButton_clicked();
-    void on_downButton_clicked();
 };
 
 #endif // GAMESWIDGET_H

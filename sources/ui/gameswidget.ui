@@ -112,28 +112,13 @@
      <property name="autoScroll">
       <bool>false</bool>
      </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <property name="topMargin">
-      <number>0</number>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::NoSelection</enum>
      </property>
-     <item>
-      <widget class="QPushButton" name="upButton">
-       <property name="text">
-        <string>Up</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="downButton">
-       <property name="text">
-        <string>Down</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+     <property name="verticalScrollMode">
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

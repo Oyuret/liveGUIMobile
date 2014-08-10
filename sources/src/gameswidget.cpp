@@ -13,13 +13,35 @@ GamesWidget::GamesWidget(QWidget *parent) :
     ui->gamesListView->setItemDelegate(&gamesDelegate);
 
     // connect an activated event to browsing streams
-    QObject::connect(ui->gamesListView, SIGNAL(activated(QModelIndex)),
+    QObject::connect(ui->gamesListView, SIGNAL(clicked(QModelIndex)),
                      this, SLOT(on_gamesItemActivated(QModelIndex)));
+
+    setupKineticScroller(ui->gamesListView);
 
     // searching
     gamesSortProxy.setFilterCaseSensitivity(Qt::CaseInsensitive);
     QObject::connect(ui->searchLineEdit,SIGNAL(textChanged(QString)),this,SLOT(searchInGameList(QString)));
 
+}
+
+void GamesWidget::setupKineticScroller(QObject* target)
+{
+    QScrollerProperties sp;
+
+    sp.setScrollMetric(QScrollerProperties::DragVelocitySmoothingFactor, 0.6);
+    sp.setScrollMetric(QScrollerProperties::MinimumVelocity, 0.0);
+    sp.setScrollMetric(QScrollerProperties::MaximumVelocity, 0.5);
+    sp.setScrollMetric(QScrollerProperties::AcceleratingFlickMaximumTime, 0.4);
+    sp.setScrollMetric(QScrollerProperties::AcceleratingFlickSpeedupFactor, 1.2);
+    sp.setScrollMetric(QScrollerProperties::SnapPositionRatio, 0.2);
+    sp.setScrollMetric(QScrollerProperties::MaximumClickThroughVelocity, 0);
+    sp.setScrollMetric(QScrollerProperties::DragStartDistance, 0.001);
+    sp.setScrollMetric(QScrollerProperties::MousePressEventDelay, 0.5);
+    QScroller* scroller = QScroller::scroller(target);
+
+    scroller->grabGesture(target, QScroller::LeftMouseButtonGesture);
+
+    scroller->setScrollerProperties(sp);
 }
 
 GamesWidget::~GamesWidget()
@@ -72,16 +94,4 @@ void GamesWidget::on_azubuButton_clicked()
 void GamesWidget::clearGames()
 {
     gamesModel.clear();
-}
-
-void GamesWidget::on_upButton_clicked()
-{
-    int current = ui->gamesListView->verticalScrollBar()->value();
-    ui->gamesListView->verticalScrollBar()->setValue(current - 3);
-}
-
-void GamesWidget::on_downButton_clicked()
-{
-    int current = ui->gamesListView->verticalScrollBar()->value();
-    ui->gamesListView->verticalScrollBar()->setValue(current + 3);
 }

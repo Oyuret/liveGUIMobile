@@ -3,8 +3,8 @@
 
 #include <QWidget>
 #include <QSettings>
-#include <QScrollBar>
 #include <QStandardPaths>
+#include <QScroller>
 #include "favoriteitemwidget.h"
 #include "stream.h"
 
@@ -48,12 +48,10 @@ private slots:
     void removeFavorite(QListWidgetItem*item);
     void on_refreshStatusButton_clicked();
 
-    void on_upButton_clicked();
-    void on_downButton_clicked();
-
 private:
     void connectFavoriteItemWidget(FavoriteItemWidget* favoriteItemWidget);
     bool alreadyInFavorites(const Stream& stream) const;
+    void setupKineticScroller(QObject* target);
     QList<FavoriteItemWidget*> findFavorite(const Stream& stream) const;
     Ui::FavoriteWidget *ui;
 

@@ -6,6 +6,7 @@ FavoriteWidget::FavoriteWidget(QWidget *parent) :
     ui(new Ui::FavoriteWidget)
 {
     ui->setupUi(this);
+    setupKineticScroller(ui->favListWidget);
 }
 
 FavoriteWidget::~FavoriteWidget()
@@ -31,6 +32,26 @@ void FavoriteWidget::on_addFavorite(const Stream &stream)
 bool FavoriteWidget::alreadyInFavorites(const Stream &stream) const
 {
     return !findFavorite(stream).isEmpty();
+}
+
+void FavoriteWidget::setupKineticScroller(QObject *target)
+{
+    QScrollerProperties sp;
+
+    sp.setScrollMetric(QScrollerProperties::DragVelocitySmoothingFactor, 0.6);
+    sp.setScrollMetric(QScrollerProperties::MinimumVelocity, 0.0);
+    sp.setScrollMetric(QScrollerProperties::MaximumVelocity, 0.5);
+    sp.setScrollMetric(QScrollerProperties::AcceleratingFlickMaximumTime, 0.4);
+    sp.setScrollMetric(QScrollerProperties::AcceleratingFlickSpeedupFactor, 1.2);
+    sp.setScrollMetric(QScrollerProperties::SnapPositionRatio, 0.2);
+    sp.setScrollMetric(QScrollerProperties::MaximumClickThroughVelocity, 0);
+    sp.setScrollMetric(QScrollerProperties::DragStartDistance, 0.001);
+    sp.setScrollMetric(QScrollerProperties::MousePressEventDelay, 0.5);
+    QScroller* scroller = QScroller::scroller(target);
+
+    scroller->grabGesture(target, QScroller::LeftMouseButtonGesture);
+
+    scroller->setScrollerProperties(sp);
 }
 
 QList<FavoriteItemWidget *> FavoriteWidget::findFavorite(const Stream &stream) const
@@ -177,16 +198,4 @@ FavoriteWidget::FavoriteStream::FavoriteStream(QString displayName, QString chan
     this->url = url;
     this->serviceName = serviceName;
     this->serviceLogoResource = logo;
-}
-
-void FavoriteWidget::on_upButton_clicked()
-{
-    int current = ui->favListWidget->verticalScrollBar()->value();
-    ui->favListWidget->verticalScrollBar()->setValue(current - 3);
-}
-
-void FavoriteWidget::on_downButton_clicked()
-{
-    int current = ui->favListWidget->verticalScrollBar()->value();
-    ui->favListWidget->verticalScrollBar()->setValue(current + 3);
 }
