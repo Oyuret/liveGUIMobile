@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setupPreview();
     setupFavorites();
     setupBrowsingwidget();
-    //loadSettings();
+    loadSettings();
 
 }
 
@@ -21,7 +21,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::play(QString url) {
-    remote.play(url,"http://192.168.1.108:1337");
+    remote.play(url, getRemoteAddress());
 }
 
 void MainWindow::setupPreview()
@@ -105,20 +105,47 @@ void MainWindow::setupBrowsingwidget()
 
 void MainWindow::loadSettings()
 {
-    QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+    QString path ;
+    QString filename;
+
+    path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) ;
+    filename = "liveGUIconfig.ini" ;
+    QSettings settings(path + "/" + filename,QSettings::IniFormat);
+
+    QString remotePlayerAddress = settings.value("remotePlayerAddress","localhost").toString();
+    setRemoteAddress(remotePlayerAddress);
+
     emit load_favs();
 }
 
 void MainWindow::saveSettings()
 {
-    QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+    QString path ;
+    QString filename;
+
+    path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) ;
+    filename = "liveGUIconfig.ini" ;
+    QSettings settings(path + "/" + filename,QSettings::IniFormat);
+
+    QString remotePlayerAddress = getRemoteAddress();
+    settings.setValue("remotePlayerAddress",remotePlayerAddress);
 
     emit save_favs();
 }
 
+QString MainWindow::getRemoteAddress() const
+{
+    return ui->remoteAddressField->text();
+}
+
+void MainWindow::setRemoteAddress(QString remoteAddress)
+{
+    ui->remoteAddressField->setText(remoteAddress);
+}
+
 void MainWindow::closeEvent(QCloseEvent*)
 {
-    //saveSettings();
+    saveSettings();
 }
 
 void MainWindow::on_goToPreview()

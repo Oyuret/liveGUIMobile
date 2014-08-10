@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSettings>
 #include <QScrollBar>
+#include <QStandardPaths>
 #include "favoriteitemwidget.h"
 #include "stream.h"
 

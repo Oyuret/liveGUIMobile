@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStandardPaths>
 #include "networkmanager.h"
 #include "remoteplayer.h"
 
@@ -41,6 +42,9 @@ private:
     // settings
     void loadSettings();
     void saveSettings();
+
+    QString getRemoteAddress() const;
+    void setRemoteAddress(QString remoteAddress);
 
     // closing
     void closeEvent(QCloseEvent *event);

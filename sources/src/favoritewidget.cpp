@@ -63,7 +63,12 @@ void FavoriteWidget::connectFavoriteItemWidget(FavoriteItemWidget* favoriteItemW
 
 void FavoriteWidget::on_loadFavorites()
 {
-    QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+    QString path ;
+    QString filename;
+
+    path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) ;
+    filename = "liveGUIconfig.ini" ;
+    QSettings settings(path + "/" + filename,QSettings::IniFormat);
 
     int numberOfFavorites = settings.beginReadArray("favorites");
 
@@ -93,7 +98,12 @@ FavoriteItemWidget * FavoriteWidget::getFavoriteItemWidget(int row) const
 
 void FavoriteWidget::on_saveFavorites()
 {
-    QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
+    QString path ;
+    QString filename;
+
+    path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) ;
+    filename = "liveGUIconfig.ini" ;
+    QSettings settings(path + "/" + filename,QSettings::IniFormat);
 
     settings.beginWriteArray("favorites");
 
