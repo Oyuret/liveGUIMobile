@@ -29,7 +29,8 @@ SOURCES += \
     src/streamitemwidget.cpp \
     src/streamswidget.cpp \
     src/twitchhandler.cpp \
-    main.cpp
+    main.cpp \
+    src/azubuhandler.cpp
 
 HEADERS  += \
     include/abstracthandler.h \
@@ -47,7 +48,8 @@ HEADERS  += \
     include/stream.h \
     include/streamitemwidget.h \
     include/streamswidget.h \
-    include/twitchhandler.h
+    include/twitchhandler.h \
+    include/azubuhandler.h
 
 FORMS    += \
     ui/browsingwidget.ui \
